@@ -30,7 +30,7 @@ ko.bindingHandlers.fabricDrawing = {
         ko.applyBindingsToNode(element, { attr: { name: d.controlNameObservable, id: d.controlNameObservable } });
         d.controlNameObservable.subscribe(function (newValue) {
             // console.log(newValue);
-            console.log(element.name);
+            //console.log(element.name);
         });
         d.controlNameObservable.valueHasMutated();
 
@@ -66,56 +66,7 @@ ko.bindingHandlers.fabricDrawing = {
             d.controlValueObservable(d.controlInitialStaticValue);
         }
 
-        //
-        // the actual width of the control
-        // for image (display mode) or drawing (input mode)
-        // apply the bindings to the root node
-        // console.log(d.controlWidthObservable());
-        d.controlWidthObservable = valueAccessor().canvas.width;
-        ko.applyBindingsToNode(element, { attr: { width: d.controlWidthObservable } });
-        d.controlWidthObservable.subscribe(function (newValue) {
-            // console.log(newValue);
-            d.canvas.setWidth(parseInt(newValue));
-            d.canvas.calcOffset();
-            //d.canvas.renderAll.bind(d.canvas);
-        });
-        d.controlWidthObservable.valueHasMutated();
-
-        //
-        // the actual height of the control
-        // for image (display mode) or drawing (input mode)
-        // console.log(d.controlHeightObservable());
-        d.controlHeightObservable = valueAccessor().canvas.height;
-        ko.applyBindingsToNode(element, { attr: { height: d.controlHeightObservable() + 'px' } });
-        d.controlHeightObservable.subscribe(function (newValue) {
-            // console.log(newValue);
-            d.canvas.setHeight(parseInt(newValue));
-            d.canvas.calcOffset();
-            //d.canvas.renderAll.bind(d.canvas);
-        });
-        d.controlHeightObservable.valueHasMutated();
-
-        //
-        // the visibility of the canvas input portion of the drawing control
-        d.controlVisibleObservable = valueAccessor().canvas.visible;
-        d.controlVisibleObservable.subscribe(function (newValue) {
-            console.log(newValue);
-            var visibility = 'none';
-            if (newValue) {
-                visibility = 'block';
-            }
-            element.parentNode.style.display = visibility;
-        });
-
-        // //
-        // // the actual display mode of the control
-        // // for image (display mode) or drawing (input mode)
-        // d.controlModeObservable = valueAccessor().canvas.mode;
-        // d.controlModeObservable.subscribe(function(newValue){
-        //     console.log(newValue);
-        // });
-
-        d.updateSigLine = function () {
+         d.updateSigLine = function () {
             if (d.sigLineStaticObject) {
                 d.sigLineStaticObject.set({
                     x1: parseInt(d.sigLineOffsetXObservable()),
@@ -136,6 +87,59 @@ ko.bindingHandlers.fabricDrawing = {
             //     console.log('signature line not updated because it hasn\'t been added to the canvas yet);
             // }
         }
+
+        //
+        // the actual width of the control
+        // for image (display mode) or drawing (input mode)
+        // apply the bindings to the root node
+        // console.log(d.controlWidthObservable());
+        d.controlWidthObservable = valueAccessor().canvas.width;
+        ko.applyBindingsToNode(element, { attr: { width: d.controlWidthObservable } });
+        d.controlWidthObservable.subscribe(function (newValue) {
+            // console.log(newValue);
+            d.canvas.setWidth(parseInt(newValue));
+            d.canvas.calcOffset();
+            d.updateSigLine();
+            
+            //d.canvas.renderAll.bind(d.canvas);
+        });
+        d.controlWidthObservable.valueHasMutated();
+
+        //
+        // the actual height of the control
+        // for image (display mode) or drawing (input mode)
+        // console.log(d.controlHeightObservable());
+        d.controlHeightObservable = valueAccessor().canvas.height;
+        ko.applyBindingsToNode(element, { attr: { height: d.controlHeightObservable() + 'px' } });
+        d.controlHeightObservable.subscribe(function (newValue) {
+            // console.log(newValue);
+            d.canvas.setHeight(parseInt(newValue));
+            d.canvas.calcOffset();
+            d.updateSigLine();
+            //d.canvas.renderAll.bind(d.canvas);
+        });
+        d.controlHeightObservable.valueHasMutated();
+
+        //
+        // the visibility of the canvas input portion of the drawing control
+        d.controlVisibleObservable = valueAccessor().canvas.visible;
+        d.controlVisibleObservable.subscribe(function (newValue) {
+            console.log(newValue);
+            var visibility = 'none';
+            if (newValue) {
+                visibility = 'block';
+            }
+            element.parentNode.style.display = visibility;
+        });
+        d.controlVisibleObservable.valueHasMutated();
+
+        // //
+        // // the actual display mode of the control
+        // // for image (display mode) or drawing (input mode)
+        // d.controlModeObservable = valueAccessor().canvas.mode;
+        // d.controlModeObservable.subscribe(function(newValue){
+        //     console.log(newValue);
+        // });
 
         //
         // the actual width of the optional signature line of the control

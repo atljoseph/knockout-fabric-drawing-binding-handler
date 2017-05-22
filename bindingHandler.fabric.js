@@ -237,13 +237,14 @@ ko.bindingHandlers.fabricDrawing = {
         // console.log(valueAccessor().canvas.clear);
         valueAccessor().canvas.clear = function (resetInitialValueBool) {
             // console.log('clearing canvas, and view model. If "resetInitialValueBool" is true, then the initial value will be restored.');
-            if (resetInitialValueBool && d.controlInitialStaticValue) {
-                // load the json and automatically update the canvas
-                d.canvas.loadFromJSON(d.controlInitialStaticValue, d.canvas.renderAll.bind(d.canvas));
-            }
-            else {
-                d.canvas.clear();
-            }
+            // if (resetInitialValueBool && d.controlInitialStaticValue) {
+            //     // load the json and automatically update the canvas
+            //     d.canvas.loadFromJSON(d.controlInitialStaticValue, d.canvas.renderAll.bind(d.canvas));
+            // }
+            // else {
+            //     d.canvas.clear();
+            // }
+            d.canvas.clear();
             d.sigLineStaticObject = new signatureLine();
             d.canvas.add(d.sigLineStaticObject);
             d.updateModel();
